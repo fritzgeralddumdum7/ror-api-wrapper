@@ -1,12 +1,16 @@
 # Quotable API Wrapper
 
 This API wrapper is intended for educational purposes only!.
+## API Endpoint <!-- omit in toc -->
+
+The endpoint used in this wrapper is [api.quotable.io](https://api.quotable.io/quotes). You can also visit the endpoint's github repository [here](https://github.com/lukePeavey/quotable)
 
 ## API Reference <!-- omit in toc -->
 
 - [Get random quote](#get-random-quote)
-- [List Quotes](#list-quotes)
+- [Quotes](#list-quotes)
 - [Get Quote By ID](#get-quote-by-id)
+- [Authors](#list-authors)
 
 ## Get random quote
 
@@ -21,15 +25,10 @@ Returns a single random quote from the database
 ```ts
 {
   _id: string
-  // The quotation text
   content: string
-  // The full name of the author
   author: string
-  // The `slug` of the quote author
   authorSlug: string
-  // The length of quote (number of characters)
   length: number
-  // An array of tag names for this quote
   tags: string[]
 }
 ```
@@ -59,28 +58,17 @@ Get all quotes matching a given query. By default, this will return a paginated 
 
 ```ts
 {
-  // The number of quotes returned in this response
   count: number
-  // The total number of quotes matching this query
   totalCount: number
-  // The current page number
   page: number
-  // The total number of pages matching this request
   totalPages: number
-  // The 1-based index of the last result included in the current response.
   lastItemIndex: number
-  // The array of quotes
   results: Array<{
     _id: string
-    // The quotation text
     content: string
-    // The full name of the author
     author: string
-    // The `slug` of the quote author
     authorSlug: string
-    // The length of quote (number of characters)
     length: number
-    // An array of tag names for this quote
     tags: string[]
   }>
 }
@@ -105,15 +93,44 @@ Get a quote by its ID
 ```ts
 {
   _id: string
-  // The quotation text
   content: string
-  // The full name of the author
   author: string
-  // The length of quote (number of characters)
   length: number
-  // An array of tag names for this quote
   tags: string[]
 }
 ```
 
 <br>
+
+## List Authors
+
+```HTTP
+GET /authors
+```
+
+Get all authors matching the given query
+
+**Response**
+
+```ts
+{
+  count: number
+  totalCount: number
+  page: number
+  totalPages: number
+  lastItemIndex: number | null
+  results: Array<{
+    _id: string
+    bio: string
+    description: string
+    link: string
+    name: string
+    slug: string
+    quoteCount: string
+  }>
+}
+```
+
+**Examples**
+
+Get all authors, sorted alphabetically by name [try in browser](https://quotable.io/authors)

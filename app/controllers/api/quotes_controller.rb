@@ -11,5 +11,9 @@ module Api
         def show
             render json: QuotableApi::Client.find(params[:id])
         end
+
+        def authors
+            render json: QuotableApi::Client.authors
+        end
     end
 end

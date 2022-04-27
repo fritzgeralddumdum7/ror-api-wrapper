@@ -1,19 +1,23 @@
 require 'rest-client'
+require 'net/http'
 
 module QuotableApi
     class Request
-        BASE_URL = 'https://api.quotable.io'
+        API_ENDPOINT = 'https://api.quotable.io'
+        DOMAIN = 'api.quotable.io'
 
-        def self.call(enpoint)
-            result = RestClient::Request.execute(
-                method: 'GET',
-                url: "#{BASE_URL}#{enpoint}",
-                headers: {
-                    'Content-Type' => 'application/json'
-                }
-            )
-
+        def self.rest_client(endpoint)
+            result = RestClient.get("#{API_ENDPOINT}#{endpoint}", headers={ 'Content-Type' => 'application/json' })
             JSON.parse(result)
+        rescue RestClient::ExceptionWithResponse => error
+            error
+        end
+
+        def self.net_http(endpoint)
+            result = Net::HTTP.get(DOMAIN, endpoint)
+            JSON.parse(result)
+        rescue Net::HTTPNotFound => error
+            error
         end
     end
 end
